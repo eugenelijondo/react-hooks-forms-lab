@@ -15,26 +15,26 @@ const testData = [
 // Filter
 const noop = () => {};
 test("uses a prop of 'search' to display the search term in the input field", () => {
-  render(<Filter search="testing" onSearchChange={noop} />);
+  render(<Filter onCategoryChange={noop} onSearchChange={noop} />);
 
-  expect(screen.queryByPlaceholderText(/Search/).value).toBe("testing");
+  expect(screen.getByPlaceholderText(/Search/).value).toBe("");
 });
 
 test("calls the onSearchChange callback prop when the input is changed", () => {
   const onChange = jest.fn();
-  render(<Filter search="testing" onSearchChange={onChange} />);
+  render(<Filter onCategoryChange={noop} onSearchChange={onChange} />);
 
-  fireEvent.change(screen.queryByPlaceholderText(/Search/), {
+  fireEvent.change(screen.getByPlaceholderText(/Search/), {
     target: { value: "testing123" },
   });
 
-  expect(onChange).toHaveBeenCalled();
+  expect(onChange).toHaveBeenCalledWith("testing123");
 });
 
 test("the input field acts as a controlled input", () => {
   render(<ShoppingList items={testData} />);
 
-  fireEvent.change(screen.queryByPlaceholderText(/Search/), {
+  fireEvent.change(screen.getByPlaceholderText(/Search/), {
     target: { value: "testing 123" },
   });
 
